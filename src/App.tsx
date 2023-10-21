@@ -1,18 +1,19 @@
-import React from 'react';
+import React from 'react'
 import { Reset } from 'styled-reset'
-import logo from './logo.svg';
-import './App.css';
 
-const App: React.FC = () => {
-  return (
-    <>
-      <Reset />
-      <AppLayout>
 
-      </AppLayout>
-    </>
-  );
-}
-}
+import './App.css'
+import QuizView from './pages/QuizView';
+
+
+const App: React.FC = () =>
+(
+  <>
+    <Reset />
+    <QuizView />
+  </>
+);
+
+
 
 export default App;
