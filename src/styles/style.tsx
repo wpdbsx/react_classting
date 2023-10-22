@@ -46,7 +46,6 @@ export const HeaderDiv = styled.div`
 `
 
 export const FlexMain = styled.div`
-
   width:100%;
   display:flex;
   flex-wrap: nowrap;
@@ -64,4 +63,9 @@ export const FlexAsideItem = styled.div`
   
     background-color: gray;
 `
-
+export const ContentMainBox = styled.div`
+   background-color: gray;
+   height: 95%;
+   width: 98%;
+   margin : 0 auto;
+`

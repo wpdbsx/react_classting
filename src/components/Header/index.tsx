@@ -1,9 +1,11 @@
 import React, { useMemo } from "react";
-import { useForm, Controller } from 'react-hook-form';
-import { Select, InputNumber, Button, Form } from 'antd';
-import { SubmitHandler } from 'react-hook-form';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { Select, InputNumber, Button } from 'antd';
+import { useDispatch, useSelector } from "react-redux";
 import { HeaderForm, HeaderDiv, HeaderItem, HeaderQuizStart } from '../../styles/style';
 import { category, difficulty } from './selectData';
+import { ADD_QUIZ_REQUEST } from "../../reduxSaga/actionType/quiz";
+import { RootState } from "../../reduxSaga/reducers";
 
 
 
@@ -13,11 +15,11 @@ type FormValue = {
     difficulty: string,
 }
 const Header: React.FC = () => {
-
+    const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
+    const dispatch = useDispatch();
     const {
         control,
         handleSubmit,
-        setError,
         getValues
     } = useForm<FormValue>({
         mode: "onSubmit",
@@ -28,8 +30,10 @@ const Header: React.FC = () => {
         }
     });
     const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
-
-        console.log(data)
+        dispatch({
+            type: ADD_QUIZ_REQUEST,
+            payload: data
+        });
     };
     return (
         <HeaderForm onFinish={handleSubmit(onSubmitHandler)}>
@@ -38,7 +42,7 @@ const Header: React.FC = () => {
                     name="amount"
                     control={control}
                     render={({ field, fieldState }) => {
-                        console.log(field)
+
                         return (
                             <>
                                 <HeaderDiv>문제 수</HeaderDiv>
@@ -53,8 +57,7 @@ const Header: React.FC = () => {
                     name="category"
                     control={control}
                     render={({ field, fieldState }) => {
-                        console.log(field)
-                        console.log(getValues('category'))
+
                         return (
                             <>
                                 <HeaderDiv>카테고리</HeaderDiv>
@@ -73,8 +76,7 @@ const Header: React.FC = () => {
                     name="difficulty"
                     control={control}
                     render={({ field, fieldState }) => {
-                        console.log(field)
-                        console.log(getValues('category'))
+
                         return (
                             <>
                                 <HeaderDiv>난이도</HeaderDiv>
@@ -89,7 +91,7 @@ const Header: React.FC = () => {
                 />
             </HeaderItem>
             <HeaderQuizStart>
-                <Button htmlType="submit" size="large">퀴즈 시작</Button>
+                <Button loading={addQuizLoading} htmlType="submit" size="large">퀴즈 시작</Button>
             </HeaderQuizStart>
         </HeaderForm >
 

@@ -41,7 +41,11 @@
     "import/no-extraneous-dependencies": 0,
     "no-shadow": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
-    "prettier/prettier": ["off"]
+    "prettier/prettier": ["off"],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^draft"] }],
+    "@typescript-eslint/no-explicit-any": ["off"],
+    "default-param-last": 0,
+    "arrow-body-style": "off"
   },
   "settings": {
     "import/resolver": {

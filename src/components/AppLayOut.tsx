@@ -8,7 +8,7 @@ import { FlexAsideItem, FlexContainer, FlexHeader, FlexMain, FlexMainItem } from
 //     Aside: React.ReactNode,
 //     Content: React.ReactNode
 // }
-interface ComponentProps {
+type ComponentProps = {
     children: React.ReactNode[];
 }
 
