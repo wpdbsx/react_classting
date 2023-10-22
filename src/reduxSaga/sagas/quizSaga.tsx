@@ -16,7 +16,7 @@ import { difficulty } from '../../components/Header/selectData';
 function addQuizAPI(action: quizActionType): Promise<AxiosResponse<any>> {
     const { amount, category, difficulty } = action.payload as RequestQuizType
 
-    let apiUrl = `https://opentdb.com/api.php?amount=${amount}`;
+    let apiUrl = `https://opentdb.com/api.php?amount=${amount}&type=multiple&encode=url3986`;
 
     // category 값이 존재하면 URL에 추가
     if (category !== "any") {

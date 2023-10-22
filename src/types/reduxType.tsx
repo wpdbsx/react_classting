@@ -5,14 +5,20 @@ export type RequestQuizType = {
     category: string,
     difficulty: string
 }
+export type ChangeInputType = {
+    content: string,
+    id: number,
+    isCorrect: boolean
+}
 export type SuccessQuizType = {
     category: string,
     correct_answer: string,
     difficulty: string,
-    incorrect_answer: string[],
+    incorrect_answers: string[],
     question: string,
     type: string,
     input_answer?: string
+    isCorrect: boolean;
 }[]
 export type SuccessPostType = {
     response_code: string,
@@ -23,7 +29,7 @@ export type InitialStateQuizType = {
         id: number,
         Quizs: SuccessQuizType
     }[];
-    selectedQuiz: SuccessQuizType | null;
+    selectedQuiz: SuccessQuizType;
     addQuizLoading: boolean,
     addQuizDone: boolean,
     addQuizError: string | null,

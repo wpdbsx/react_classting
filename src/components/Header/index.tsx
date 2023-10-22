@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { Select, InputNumber, Button } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
-import { HeaderForm, HeaderDiv, HeaderItem, HeaderQuizStart } from '../../styles/style';
+import { HeaderForm, HeaderDiv, HeaderItem, HeaderQuizStart } from '../../styles/headerStyle';
 import { category, difficulty } from './selectData';
 import { ADD_QUIZ_REQUEST } from "../../reduxSaga/actionType/quiz";
 import { RootState } from "../../reduxSaga/reducers";
