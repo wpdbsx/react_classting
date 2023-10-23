@@ -1,8 +1,6 @@
 import { ActionType } from "typesafe-actions";
-import { changeInputAnswer, getQuiz } from "./actions";
+import { changeInputAnswer, completeQuiz, getQuiz } from "./actions";
 
 export type quizActionType =
-  ActionType<typeof getQuiz>;
+  ActionType<typeof getQuiz | typeof changeInputAnswer | typeof completeQuiz>;
 
-export type changeInputAnswerType =
-  ActionType<typeof changeInputAnswer>

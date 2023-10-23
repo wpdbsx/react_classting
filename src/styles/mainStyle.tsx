@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const FlexContainer = styled.div`
   display: flex;
-  min-width: 600px;
+  min-width: 1200px;
   width:100%;
   height: 100vh;
   align-items: center;
@@ -37,6 +37,5 @@ export const FlexMainItem = styled.div`
 `;
 export const FlexAsideItem = styled.div`
     flex:2;
-  
     background-color: gray;
 `

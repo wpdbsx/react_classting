@@ -18,6 +18,7 @@
     "eqeqeq": "warn",
     "react/prop-types": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "react/jsx-no-useless-fragment": "off",
     "arrow-parens": ["warn", "as-needed"],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
