@@ -3,11 +3,9 @@ import { useSelector } from "react-redux";
 import { ContentResultBox, ContentResultChartBox, ContentResultDataBox, ContentResultDataBoxInput } from "../../styles/contentStyle";
 import DoughnutChart from "./DoughnutChart";
 import { RootState } from "../../reduxSaga/reducers";
-import { QuizViewerType } from "../../types/pageType";
 
 
-
-const QuizResultViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
+const QuizResultViewer: React.FC = () => {
     const { time, correctCount, incorrectCount } = useSelector((state: RootState) => state.quiz.selectedQuiz.content)
     // 분 계산
     const minutes = Math.floor(time / 60);
