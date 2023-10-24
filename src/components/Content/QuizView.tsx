@@ -23,8 +23,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
 
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(0);
-    const [title, setTitle] = useState<string>("");
-    const { quizs } = useSelector((state: RootState) => state.quiz.selectedQuiz)
+    const { quizs } = useSelector((state: RootState) => state.quiz.selectedQuiz.content)
 
     const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
     const correctCount = useRef<number>(0); // 정답수 카운트
@@ -34,7 +33,6 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
     const {
         control,
         setValue,
-        formState: { errors },
         handleSubmit
     } = useForm<FormValue>({
         mode: "onSubmit",
@@ -44,11 +42,15 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
         }
     });
     useEffect(() => {
-        if (!addQuizLoading) {
-            // 퀴즈가 다시 시작되면 값 초기화
-            setPage(0);
-            correctCount.current = 0;
-            incorrectCount.current = 0;
+
+        return () => {
+            if (!addQuizLoading) {
+
+                handleChangeView(false);
+                setPage(0);
+                correctCount.current = 0;
+                incorrectCount.current = 0;
+            }
         }
     }, [addQuizLoading]);
 
@@ -96,8 +98,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                     name={"title"}
                     control={control}
                     render={({ field, fieldState }) => {
-                        console.log(fieldState.error)
-                        console.log(errors.title)
+
                         return (
                             <>
                                 <Input
@@ -115,24 +116,6 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
             okText: '퀴즈등록',
             cancelText: '취소',
             onOk: (close) => {
-
-                console.log(errors.title);
-                const update = () => {
-                    console.log(errors.title)
-                    console.log("test입니다.")
-
-                    setValue('title', '');
-                    // dispatch({
-                    //     type: COMPLETE_QUIZ,
-                    //     payload: {
-                    //         title: getValues("title"),
-                    //         correctCount: correctCount.current,
-                    //         incorrectCount: incorrectCount.current,
-                    //     }
-                    // });
-                    // handleChangeView(true);
-
-                }
                 handleSubmit(({ title }) => {
                     setValue('title', '');
                     dispatch({
@@ -145,10 +128,6 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                     close();
 
                 })();
-
-
-
-
 
             },
             onCancel: () => {

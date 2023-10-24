@@ -3,7 +3,7 @@ import { produce } from "immer";
 import { getType } from 'typesafe-actions';
 import { InitialStateQuizType } from '../../types/reduxType';
 import { quizActionType } from "../action";
-import { changeInputAnswer, completeQuiz, getQuiz } from '../action/actions';
+import { changeIncorrectNotePage, changeInputAnswer, completeQuiz, getQuiz } from '../action/actions';
 
 
 
@@ -15,11 +15,14 @@ const initialState: InitialStateQuizType = {
   mainQuizs: [
   ],
   selectedQuiz: {
-    quizs: [],
-    time: 0,
-    correctCount: 0,
-    incorrectCount: 0,
-    title: "",
+    content: {
+      quizs: [],
+      time: 0,
+      correctCount: 0,
+      incorrectCount: 0,
+      title: "",
+    },
+    id: -1
   },
   addQuizLoading: false,
   addQuizDone: false,
@@ -54,17 +57,14 @@ const reducer = (state = initialState, action: quizActionType) => {
         draft.addQuizLoading = false;
         draft.addQuizDone = true;
         draft.addQuizError = null;
-        draft.selectedQuiz = {
+        draft.selectedQuiz.content = {
           quizs: decodeQuiz,
           time: new Date().getTime(),
           correctCount: 0,
           incorrectCount: 0,
           title: ""
-        }; // 퀴즈 생성 시간 입력
-        // draft.mainQuizs = [{
-        //   id: draft.mainQuizs.length + 1,
-        //   Quizs: action.payload.results, 
-        // }, ...draft.mainQuizs];
+        };
+        draft.selectedQuiz.id = -1
       });
     }
     case getType(getQuiz.failure):
@@ -76,34 +76,40 @@ const reducer = (state = initialState, action: quizActionType) => {
     case getType(changeInputAnswer):
       return produce(state, (draft) => {
         const { id } = action.payload;
-        draft.selectedQuiz.quizs[id].isCorrect = action.payload.isCorrect;
-        draft.selectedQuiz.quizs[id].input_answer = action.payload.content;
+        draft.selectedQuiz.content.quizs[id].isCorrect = action.payload.isCorrect;
+        draft.selectedQuiz.content.quizs[id].input_answer = action.payload.content;
         if (action.payload.isCorrect) {
-          draft.selectedQuiz.correctCount += 1;
+          draft.selectedQuiz.content.correctCount += 1;
         } else {
-          draft.selectedQuiz.incorrectCount += 1;
+          draft.selectedQuiz.content.incorrectCount += 1;
         }
       }
       );
     case getType(completeQuiz):
       return produce(state, (draft) => {
         const id = draft.mainQuizs.length;
-        draft.selectedQuiz.time = Math.floor(new Date().getTime() - draft.selectedQuiz.time) / 1000;
+        draft.selectedQuiz.id = id;
+        draft.selectedQuiz.content.time = Math.floor(new Date().getTime() - draft.selectedQuiz.content.time) / 1000;
         draft.mainQuizs = [{
           id,
           content: {
-            quizs: draft.selectedQuiz.quizs,
-            time: draft.selectedQuiz.time,
+            quizs: draft.selectedQuiz.content.quizs,
+            time: draft.selectedQuiz.content.time,
             //  퀴즈 완료시간에서 퀴즈 생성 시간을 빼서 만든다.
-            correctCount: draft.selectedQuiz.correctCount,
-            incorrectCount: draft.selectedQuiz.incorrectCount,
+            correctCount: draft.selectedQuiz.content.correctCount,
+            incorrectCount: draft.selectedQuiz.content.incorrectCount,
             title: action.payload.title
           },
         }, ...draft.mainQuizs]
-
-      }
-
-      );
+      });
+    case getType(changeIncorrectNotePage):
+      return produce(state, (draft) => {
+        const { id } = action.payload;
+        const selectedQuiz = draft.mainQuizs.find((quiz) => quiz.id === id);
+        if (selectedQuiz) {
+          draft.selectedQuiz = selectedQuiz;
+        }
+      });
 
     default:
       return state;

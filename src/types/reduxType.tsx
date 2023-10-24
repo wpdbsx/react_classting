@@ -5,6 +5,10 @@ export type RequestQuizType = {
     category: string, // 카테고리
     difficulty: string // 난이도
 }
+
+export type ChangeIncorrectNotePage = {
+    id: number, // 퀴즈 타이틀
+}
 export type CompleteQuizType = {
     title: string, // 퀴즈 타이틀
 }
@@ -24,6 +28,11 @@ export type quizType = {
     input_answer?: string // 입력한 정답
     isCorrect: boolean; // 정답 유무 (true/false)
 }
+export type AsideItemType = {
+    id: number,   // 퀴즈아이템 고유 아이디
+    selectId: number,  //현재 선택된 아이디
+    title: string
+}
 export type SuccessQuizType = {
     quizs: quizType[] // 퀴즈 리스트
     time: number;   // 전체 퀴즈 푼 시간
@@ -41,7 +50,7 @@ export type InitialStateQuizType = {
         content: SuccessQuizType,  // 퀴즈 리스트
 
     }[];
-    selectedQuiz: SuccessQuizType; // 현재 선택된 퀴즈리스트
+    selectedQuiz: { id: number, content: SuccessQuizType }; // 현재 선택된 퀴즈리스트
     addQuizLoading: boolean, // 퀴즈 생성 api 호출 로딩상태
     addQuizDone: boolean,  // 퀴즈 생성 api 완료 유무
     addQuizError: string | null, // 퀴즈 생성 api 에러 유무

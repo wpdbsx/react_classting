@@ -7,7 +7,7 @@ import { RootState } from "../../reduxSaga/reducers";
 
 
 const QuizResultViewer: React.FC = () => {
-    const { time, incorrectCount, correctCount } = useSelector((state: RootState) => state.quiz.selectedQuiz)
+    const { time, incorrectCount, correctCount } = useSelector((state: RootState) => state.quiz.selectedQuiz.content)
     // 분 계산
     const minutes = Math.floor(time / 60);
     // 초 계산

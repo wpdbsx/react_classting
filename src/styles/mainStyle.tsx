@@ -40,7 +40,9 @@ export const FlexAsideItem = styled.div`
     background-color: gray;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
 `
 
 export const ErrorMessage = styled.div`

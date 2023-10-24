@@ -5,12 +5,10 @@ import {
     call,
     put
 } from "redux-saga/effects";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { ADD_QUIZ_FAILURE, ADD_QUIZ_REQUEST, ADD_QUIZ_SUCCESS } from "../actionType/quiz";
 import { quizActionType } from "../action";
 import { RequestQuizType, SuccessQuizType } from "../../types/reduxType";
-import { difficulty } from '../../components/Header/selectData';
-
 
 
 function addQuizAPI(action: quizActionType): Promise<AxiosResponse<any>> {

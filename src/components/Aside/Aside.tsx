@@ -8,9 +8,17 @@ const Aside: React.FC = () => {
 
     const mainQuizs = useSelector((state: RootState) => state.quiz.mainQuizs)
 
+    const { id } = useSelector((state: RootState) => state.quiz.selectedQuiz)
+
     return <>
-        {mainQuizs.map(() => {
-            return <AsideItem />
+        {mainQuizs.map((quiz) => {
+
+            return <AsideItem
+                key={quiz.id}
+                id={quiz.id}
+                selectId={id}
+                title={quiz.content.title}
+            />
         })}
     </>
 }
