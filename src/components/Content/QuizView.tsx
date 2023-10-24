@@ -5,10 +5,10 @@ import { Input, Modal } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from "../../reduxSaga/reducers";
-import { ContentQustion, QuestionContent, ContentInput, QuestionLabel, ContentInputBox, ContentInputText, ContentInputCheckBox, ContentButtonBox, ContentButtonText, ContentButton } from "../../styles/contentStyle";
+import { ErrorMessage, ContentQustion, QuestionContent, ContentInput, QuestionLabel, ContentInputBox, ContentInputText, ContentInputCheckBox, ContentButtonBox, ContentButtonText, ContentButton } from "../../styles";
 import { CHANGE_INPUT_ANSWER, CHANGE_IS_RESULT_VIEW, COMPLETE_QUIZ } from "../../reduxSaga/actionType/quiz";
 import { titleYup } from "./titleYup";
-import { ErrorMessage } from "../../styles/mainStyle";
+
 
 
 
@@ -140,7 +140,11 @@ const QuizViewer: React.FC = () => {
                     </ContentQustion>
                     <ContentInputBox>
                         {content.quizs[page]?.answer_list?.map((question, index) => (
-                            <ContentInput key={question} $color={content.quizs[page]?.isCorrect ? "green" : content.quizs[page]?.input_answer && "red"}>
+                            <ContentInput
+                                key={question}
+                                $color={(content.quizs[page]?.isCorrect ||
+                                    content.quizs[page].correct_answer === question) && content.quizs[page].input_answer ? "green"
+                                    : content.quizs[page]?.input_answer && "red"}>
                                 <ContentInputCheckBox
                                     disabled={content.quizs[page]?.input_answer !== ''}
                                     checked={question === content.quizs[page]?.input_answer}
@@ -179,7 +183,8 @@ const QuizViewer: React.FC = () => {
                     </ContentButtonBox>
                     {contextHolder}
                 </>
-            )}
+            )
+            }
         </>
     );
 

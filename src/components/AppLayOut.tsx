@@ -1,5 +1,5 @@
 import React from "react"
-import { FlexAsideItem, FlexContainer, FlexHeader, FlexMain, FlexMainItem } from "../styles/mainStyle";
+import { FlexAsideItem, FlexContainer, FlexHeader, FlexMain, FlexMainItem } from "../styles";
 
 
 

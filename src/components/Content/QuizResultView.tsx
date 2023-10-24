@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { ContentResultBox, ContentResultChartBox, ContentResultDataBox, ContentResultDataBoxInput } from "../../styles/contentStyle";
+import { ContentResultBox, ContentResultChartBox, ContentResultDataBox, ContentResultDataBoxInput } from "../../styles";
 import DoughnutChart from "./DoughnutChart";
 import { RootState } from "../../reduxSaga/reducers";
 

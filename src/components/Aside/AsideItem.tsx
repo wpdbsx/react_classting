@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Button } from "antd";
 import { useDispatch } from "react-redux";
-import { AsideBoxItem, AsideBoxItemButton } from "../../styles/asideStyle";
+import { AsideBoxItem, AsideBoxItemButton } from "../../styles";
 import { AsideItemType } from "../../types/reduxType";
 import { CHANGE_INCORRECT_NOTE_PAGE } from "../../reduxSaga/actionType/quiz";
 
