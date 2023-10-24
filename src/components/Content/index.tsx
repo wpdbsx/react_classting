@@ -9,19 +9,21 @@ import { RootState } from "../../reduxSaga/reducers";
 const Content: React.FC = () => {
     const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
     const [isViewResult, setIsViewResult] = useState<boolean>(false); // 결과 화면 
+    const { id } = useSelector((state: RootState) => state.quiz.selectedQuiz)
 
     const handleChangeView = useCallback((value: boolean) => {
         setIsViewResult(value);
     }, [])
 
     useEffect(() => {
-        if (!addQuizLoading) { // 로딩이 끝나면 초기화
+        return () => {
             setIsViewResult(false);
         }
-    }, [addQuizLoading])
+    }, [addQuizLoading, id])
+
     return <ContentMainBox>
         {isViewResult ? (
-            <QuizResultViewer />
+            <QuizResultViewer handleChangeView={handleChangeView} />
         ) : (
             <QuizViewer handleChangeView={handleChangeView} />
         )}

@@ -42,16 +42,31 @@ const reducer = (state = initialState, action: quizActionType) => {
 
     case getType(getQuiz.success): {
 
-      const decodeQuiz = action.payload.results?.map((quiz) => ({
-        category: decodeURIComponent(quiz.category),
-        correct_answer: decodeURIComponent(quiz.correct_answer),
-        difficulty: quiz.difficulty,
-        incorrect_answers: quiz.incorrect_answers.map((answer) => decodeURIComponent(answer)),
-        question: decodeURIComponent(quiz.question),
-        type: quiz.type,
-        input_answer: "",
-        isCorrect: false,
-      })
+      const shuffleArray = (array: string[]) => {
+        // 배열을 랜덤하게 섞기 위한 함수
+        return array?.sort(() => Math.random() - 0.5);
+      }
+
+
+      const decodeQuiz = action.payload.results?.map((quiz) => {
+        const incorrectAanswerList = quiz.incorrect_answers.map((answer) => decodeURIComponent(answer))
+        const correctAnswer = decodeURIComponent(quiz.correct_answer)
+        const array = shuffleArray(
+          incorrectAanswerList?.concat(correctAnswer)
+        )
+        return ({
+          category: decodeURIComponent(quiz.category),
+          correct_answer: correctAnswer,
+          difficulty: quiz.difficulty,
+          incorrect_answers: incorrectAanswerList,
+          answer_list: array,
+          question: decodeURIComponent(quiz.question),
+          type: quiz.type,
+          input_answer: "",
+          isCorrect: false,
+        }
+        )
+      }
       );
       return produce(state, (draft) => {
         draft.addQuizLoading = false;

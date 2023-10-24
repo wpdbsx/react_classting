@@ -23,7 +23,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
 
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(0);
-    const { quizs } = useSelector((state: RootState) => state.quiz.selectedQuiz.content)
+    const { content, id } = useSelector((state: RootState) => state.quiz.selectedQuiz)
 
     const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
     const correctCount = useRef<number>(0); // 정답수 카운트
@@ -42,17 +42,10 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
         }
     });
     useEffect(() => {
-
-        return () => {
-            if (!addQuizLoading) {
-
-                handleChangeView(false);
-                setPage(0);
-                correctCount.current = 0;
-                incorrectCount.current = 0;
-            }
-        }
-    }, [addQuizLoading]);
+        setPage(0);
+        correctCount.current = 0;
+        incorrectCount.current = 0;
+    }, [id]);
 
     const shuffleArray = useCallback((array: string[]) => {
         // 배열을 랜덤하게 섞기 위한 함수
@@ -60,12 +53,12 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
     }, [])
 
     const array = useMemo(() => shuffleArray(
-        quizs[page]?.incorrect_answers?.concat(quizs[page]?.correct_answer)
-    ), [page, quizs[page]?.correct_answer])
+        content.quizs[page]?.incorrect_answers?.concat(content.quizs[page]?.correct_answer)
+    ), [page, content.quizs[page]?.correct_answer])
 
 
     const handleChange = useCallback((e: CheckboxChangeEvent) => {
-        const isCorrect = e.target.value === quizs[page].correct_answer;
+        const isCorrect = e.target.value === content.quizs[page].correct_answer;
         if (isCorrect) {
             correctCount.current += 1
         } else {
@@ -80,7 +73,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
             }
         });
 
-    }, [page, quizs])
+    }, [page, content.quizs])
 
     const handlePageChange = useCallback((data: "+" | "-") => () => {
         if (data === "+") {
@@ -139,22 +132,20 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
 
 
 
-
-
     return (
         <>
-            {quizs.length > 0 && (
+            {content.quizs.length > 0 && (
                 <>
                     <ContentQustion>
-                        <QuestionLabel>문제 {page + 1} 객관식 문제({quizs[page].category})[<span>{quizs[page].difficulty}</span>]</QuestionLabel>
-                        <QuestionContent>{quizs[page].question}</QuestionContent>
+                        <QuestionLabel>문제 {page + 1} 객관식 문제({content.quizs[page].category})[<span>{content.quizs[page].difficulty}</span>]</QuestionLabel>
+                        <QuestionContent>{content.quizs[page].question}</QuestionContent>
                     </ContentQustion>
                     <ContentInputBox>
-                        {array?.map((question, index) => (
-                            <ContentInput key={question} $color={quizs[page].isCorrect ? "green" : quizs[page].input_answer && "red"}>
+                        {content.quizs[page].answer_list?.map((question, index) => (
+                            <ContentInput key={question} $color={content.quizs[page].isCorrect ? "green" : content.quizs[page].input_answer && "red"}>
                                 <ContentInputCheckBox
-                                    disabled={quizs[page].input_answer !== ''}
-                                    checked={question === quizs[page].input_answer}
+                                    disabled={content.quizs[page].input_answer !== ''}
+                                    checked={question === content.quizs[page].input_answer}
                                     value={question}
                                     onChange={handleChange}
                                 />
@@ -163,16 +154,19 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                         ))}
                     </ContentInputBox>
                     <ContentButtonBox>
-                        {quizs[page].input_answer ? (
+                        {content.quizs[page].input_answer ? (
                             <>
                                 {page === 0 ? (
                                     <ContentButtonText />
                                 ) : (
                                     <ContentButton onClick={handlePageChange("-")}>이전문제</ContentButton>
                                 )}
-                                <ContentButtonText>{page + 1}/{quizs.length}</ContentButtonText>
-                                {page === quizs.length - 1 ? (
-                                    <ContentButton onClick={handleComplete}>퀴즈완료</ContentButton>
+                                <ContentButtonText>{page + 1}/{content.quizs.length}</ContentButtonText>
+                                {page === content.quizs.length - 1 ? (
+                                    (id === -1 ? (
+                                        <ContentButton onClick={handleComplete}>퀴즈완료</ContentButton>
+                                    ) :
+                                        <ContentButton onClick={() => handleChangeView(true)}>결과보기</ContentButton>)
                                 ) : (
                                     <ContentButton onClick={handlePageChange("+")}>다음문제</ContentButton>
                                 )}
@@ -180,7 +174,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                         ) : (
                             <>
                                 <ContentButtonText />
-                                <ContentButtonText>{page + 1}/{quizs.length}</ContentButtonText>
+                                <ContentButtonText>{page + 1}/{content.quizs.length}</ContentButtonText>
                                 <ContentButtonText />
                             </>
                         )}

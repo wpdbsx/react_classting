@@ -27,6 +27,7 @@ export type quizType = {
     type: string, // 유형 multiple 고정
     input_answer?: string // 입력한 정답
     isCorrect: boolean; // 정답 유무 (true/false)
+    answer_list?: string[],
 }
 export type AsideItemType = {
     id: number,   // 퀴즈아이템 고유 아이디

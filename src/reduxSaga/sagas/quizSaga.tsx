@@ -42,7 +42,7 @@ function* addQuiz(action: quizActionType): Generator<any, void, AxiosResponse<an
 
 
     } catch (err: any) {
-        console.log(err)
+
         yield put({
             type: ADD_QUIZ_FAILURE,
             payload: err.response?.data
