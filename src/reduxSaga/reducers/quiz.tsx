@@ -23,7 +23,7 @@ const initialState: InitialStateQuizType = {
       title: "",
       isResultView: false,
     },
-    id: -1
+    id: -2
   },
   addQuizLoading: false,
   addQuizDone: false,

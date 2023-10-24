@@ -22,10 +22,9 @@ export const FlexHeader = styled.div`
 export const FlexMain = styled.div`
   width:100%;
   display:flex;
-  flex-wrap: nowrap;
   flex-direction: row;
   flex:9;
-  
+  flex-wrap: nowrap;
 `
 
 export const FlexMainItem = styled.div`
@@ -34,16 +33,12 @@ export const FlexMainItem = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 `;
 export const FlexAsideItem = styled.div`
     flex:2;
     background-color: gray;
-    display: flex;
-    justify-content: center;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    overflow: auto;
+    overflow-y:auto;
 `
 
 export const ErrorMessage = styled.div`

@@ -7,10 +7,7 @@ import { RootState } from "../../reduxSaga/reducers";
 
 
 const Content: React.FC = () => {
-    const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
-    const [isViewResult, setIsViewResult] = useState<boolean>(false); // 결과 화면 
     const { isResultView } = useSelector((state: RootState) => state.quiz.selectedQuiz.content)
-
 
 
     return <ContentMainBox>

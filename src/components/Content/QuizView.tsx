@@ -23,8 +23,6 @@ const QuizViewer: React.FC = () => {
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(0);
     const { content, id } = useSelector((state: RootState) => state.quiz.selectedQuiz)
-
-    const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
     const correctCount = useRef<number>(0); // 정답수 카운트
     const incorrectCount = useRef<number>(0); // 오답수 카운트
     const [modal, contextHolder] = Modal.useModal();
@@ -40,17 +38,17 @@ const QuizViewer: React.FC = () => {
             title: '',
         }
     });
+
     useEffect(() => {
-        setPage(0);
         correctCount.current = 0;
         incorrectCount.current = 0;
-    }, [id]);
+    }, [content, id]);
 
 
 
 
     const handleChange = useCallback((e: CheckboxChangeEvent) => {
-        const isCorrect = e.target.value === content.quizs[page].correct_answer;
+        const isCorrect = e.target.value === content.quizs[page]?.correct_answer;
         if (isCorrect) {
             correctCount.current += 1
         } else {
@@ -137,15 +135,15 @@ const QuizViewer: React.FC = () => {
             {content.quizs.length > 0 && (
                 <>
                     <ContentQustion>
-                        <QuestionLabel>문제 {page + 1} 객관식 문제({content.quizs[page].category})[<span>{content.quizs[page].difficulty}</span>]</QuestionLabel>
-                        <QuestionContent>{content.quizs[page].question}</QuestionContent>
+                        <QuestionLabel>문제 {page + 1} 객관식 문제({content.quizs[page]?.category})[<span>{content.quizs[page]?.difficulty}</span>]</QuestionLabel>
+                        <QuestionContent>{content.quizs[page]?.question}</QuestionContent>
                     </ContentQustion>
                     <ContentInputBox>
-                        {content.quizs[page].answer_list?.map((question, index) => (
-                            <ContentInput key={question} $color={content.quizs[page].isCorrect ? "green" : content.quizs[page].input_answer && "red"}>
+                        {content.quizs[page]?.answer_list?.map((question, index) => (
+                            <ContentInput key={question} $color={content.quizs[page]?.isCorrect ? "green" : content.quizs[page]?.input_answer && "red"}>
                                 <ContentInputCheckBox
-                                    disabled={content.quizs[page].input_answer !== ''}
-                                    checked={question === content.quizs[page].input_answer}
+                                    disabled={content.quizs[page]?.input_answer !== ''}
+                                    checked={question === content.quizs[page]?.input_answer}
                                     value={question}
                                     onChange={handleChange}
                                 />
@@ -154,7 +152,7 @@ const QuizViewer: React.FC = () => {
                         ))}
                     </ContentInputBox>
                     <ContentButtonBox>
-                        {content.quizs[page].input_answer ? (
+                        {content.quizs[page]?.input_answer ? (
                             <>
                                 {page === 0 ? (
                                     <ContentButtonText />
@@ -187,4 +185,4 @@ const QuizViewer: React.FC = () => {
 
 }
 
-export default QuizViewer;
+export default React.memo(QuizViewer);
