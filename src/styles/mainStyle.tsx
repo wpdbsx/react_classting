@@ -38,4 +38,12 @@ export const FlexMainItem = styled.div`
 export const FlexAsideItem = styled.div`
     flex:2;
     background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+`
+
+export const ErrorMessage = styled.div`
+  color:red;
+  font-size: 12px;
 `

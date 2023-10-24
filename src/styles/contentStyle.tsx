@@ -2,8 +2,9 @@ import styled from "styled-components"
 import { Checkbox, Button } from 'antd';
 import { StyledType } from "../types/styled";
 
+
+
 export const ContentMainBox = styled.div`
-   background-color: gray;
    height: 98%;
    width: 98%;
    background-color: white;

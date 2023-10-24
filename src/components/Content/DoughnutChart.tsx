@@ -1,10 +1,10 @@
 import React from 'react';
 import { RingProgress } from '@ant-design/plots';
-import { DoughnutChartType } from '../types/pageType';
+import { DoughnutChartType } from '../../types/pageType';
 
 
 const DoughnutChart: React.FC<DoughnutChartType> = ({ rate }) => {
-    console.log(rate)
+
     const config = {
         width: 500,
         autoFit: false,

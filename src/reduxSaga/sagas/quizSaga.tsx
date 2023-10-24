@@ -36,7 +36,7 @@ function addQuizAPI(action: quizActionType): Promise<AxiosResponse<any>> {
 function* addQuiz(action: quizActionType): Generator<any, void, AxiosResponse<any>> {
     try {
         const result: AxiosResponse<any> = yield call(addQuizAPI, action);
-        console.log(result);
+
         yield put({
             type: ADD_QUIZ_SUCCESS,
             payload: result.data

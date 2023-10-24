@@ -20,7 +20,6 @@ const Header: React.FC = () => {
     const {
         control,
         handleSubmit,
-        getValues
     } = useForm<FormValue>({
         mode: "onSubmit",
         defaultValues: {

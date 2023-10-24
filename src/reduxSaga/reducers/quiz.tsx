@@ -18,7 +18,8 @@ const initialState: InitialStateQuizType = {
     quizs: [],
     time: 0,
     correctCount: 0,
-    incorrectCount: 0
+    incorrectCount: 0,
+    title: "",
   },
   addQuizLoading: false,
   addQuizDone: false,
@@ -37,7 +38,7 @@ const reducer = (state = initialState, action: quizActionType) => {
       });
 
     case getType(getQuiz.success): {
-      console.log(action.payload.results)
+
       const decodeQuiz = action.payload.results?.map((quiz) => ({
         category: decodeURIComponent(quiz.category),
         correct_answer: decodeURIComponent(quiz.correct_answer),
@@ -57,7 +58,8 @@ const reducer = (state = initialState, action: quizActionType) => {
           quizs: decodeQuiz,
           time: new Date().getTime(),
           correctCount: 0,
-          incorrectCount: 0
+          incorrectCount: 0,
+          title: ""
         }; // 퀴즈 생성 시간 입력
         // draft.mainQuizs = [{
         //   id: draft.mainQuizs.length + 1,
@@ -94,7 +96,8 @@ const reducer = (state = initialState, action: quizActionType) => {
             time: draft.selectedQuiz.time,
             //  퀴즈 완료시간에서 퀴즈 생성 시간을 빼서 만든다.
             correctCount: draft.selectedQuiz.correctCount,
-            incorrectCount: draft.selectedQuiz.incorrectCount
+            incorrectCount: draft.selectedQuiz.incorrectCount,
+            title: action.payload.title
           },
         }, ...draft.mainQuizs]
 

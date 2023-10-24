@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ContentMainBox } from "../styles/contentStyle";
+import { ContentMainBox } from "../../styles/contentStyle";
 import QuizViewer from "./QuizView";
 import QuizResultViewer from "./QuizResultView";
-import { RootState } from "../reduxSaga/reducers";
+import { RootState } from "../../reduxSaga/reducers";
 
 
 const Content: React.FC = () => {

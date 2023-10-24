@@ -1,24 +1,48 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { RootState } from "../reduxSaga/reducers";
-import { ContentQustion, QuestionContent, ContentInput, QuestionLabel, ContentInputBox, ContentInputText, ContentInputCheckBox, ContentButtonBox, ContentButtonText, ContentButton } from "../styles/contentStyle";
-import { CHANGE_INPUT_ANSWER, COMPLETE_QUIZ } from "../reduxSaga/actionType/quiz";
-import { QuizViewerType } from "../types/pageType";
+import { Input, Modal } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { RootState } from "../../reduxSaga/reducers";
+import { ContentQustion, QuestionContent, ContentInput, QuestionLabel, ContentInputBox, ContentInputText, ContentInputCheckBox, ContentButtonBox, ContentButtonText, ContentButton } from "../../styles/contentStyle";
+import { CHANGE_INPUT_ANSWER, COMPLETE_QUIZ } from "../../reduxSaga/actionType/quiz";
+import { QuizViewerType } from "../../types/pageType";
+import { titleYup } from "./titleYup";
+import { ErrorMessage } from "../../styles/mainStyle";
 
 
+
+
+type FormValue = {
+    title: string
+}
 
 
 const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
 
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(0);
+    const [title, setTitle] = useState<string>("");
     const { quizs } = useSelector((state: RootState) => state.quiz.selectedQuiz)
 
     const { addQuizLoading } = useSelector((state: RootState) => state.quiz)
     const correctCount = useRef<number>(0); // 정답수 카운트
     const incorrectCount = useRef<number>(0); // 오답수 카운트
+    const [modal, contextHolder] = Modal.useModal();
 
+    const {
+        control,
+        setValue,
+        formState: { errors },
+        handleSubmit
+    } = useForm<FormValue>({
+        mode: "onSubmit",
+        resolver: yupResolver(titleYup),
+        defaultValues: {
+            title: '',
+        }
+    });
     useEffect(() => {
         if (!addQuizLoading) {
             // 퀴즈가 다시 시작되면 값 초기화
@@ -63,16 +87,81 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
             setPage((prev) => prev - 1);
         }
     }, [])
-    const handleComplete = useCallback(() => {
-        dispatch({
-            type: COMPLETE_QUIZ,
-            payload: {
-                correctCount: correctCount.current,
-                incorrectCount: incorrectCount.current,
+    const handleComplete = () => {
+        modal.confirm({
+            icon: null,
+            title: '퀴즈 타이틀 등록',
+            content:
+                <Controller
+                    name={"title"}
+                    control={control}
+                    render={({ field, fieldState }) => {
+                        console.log(fieldState.error)
+                        console.log(errors.title)
+                        return (
+                            <>
+                                <Input
+                                    {...field}
+                                    placeholder="20글자 이하로 입력해주세요."
+                                    maxLength={20}
+
+                                />
+                                {fieldState.error?.message && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
+                            </>
+                        )
+                    }}
+                />
+            ,
+            okText: '퀴즈등록',
+            cancelText: '취소',
+            onOk: (close) => {
+
+                console.log(errors.title);
+                const update = () => {
+                    console.log(errors.title)
+                    console.log("test입니다.")
+
+                    setValue('title', '');
+                    // dispatch({
+                    //     type: COMPLETE_QUIZ,
+                    //     payload: {
+                    //         title: getValues("title"),
+                    //         correctCount: correctCount.current,
+                    //         incorrectCount: incorrectCount.current,
+                    //     }
+                    // });
+                    // handleChangeView(true);
+
+                }
+                handleSubmit(({ title }) => {
+                    setValue('title', '');
+                    dispatch({
+                        type: COMPLETE_QUIZ,
+                        payload: {
+                            title
+                        }
+                    });
+                    handleChangeView(true);
+                    close();
+
+                })();
+
+
+
+
+
+            },
+            onCancel: () => {
+                setValue('title', '');
             }
+
         });
-        handleChangeView(true);
-    }, [])
+    }
+
+
+
+
+
     return (
         <>
             {quizs.length > 0 && (
@@ -117,6 +206,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                             </>
                         )}
                     </ContentButtonBox>
+                    {contextHolder}
                 </>
             )}
         </>

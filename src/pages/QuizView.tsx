@@ -1,6 +1,6 @@
 import React from "react"
 import AppLayOut from "../components/AppLayOut"
-import Aside from "../components/Aside"
+import Aside from "../components/Aside/Aside"
 import Content from "../components/Content"
 import Header from "../components/Header"
 

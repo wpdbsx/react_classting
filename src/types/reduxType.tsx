@@ -5,6 +5,9 @@ export type RequestQuizType = {
     category: string, // 카테고리
     difficulty: string // 난이도
 }
+export type CompleteQuizType = {
+    title: string, // 퀴즈 타이틀
+}
 
 export type ChangeInputType = {
     content: string,    // 퀴즈 내용
@@ -25,7 +28,8 @@ export type SuccessQuizType = {
     quizs: quizType[] // 퀴즈 리스트
     time: number;   // 전체 퀴즈 푼 시간
     correctCount: number, // 정답수
-    incorrectCount: number //오답수
+    incorrectCount: number, //오답수
+    title: string
 }
 export type SuccessPostType = {
     response_code: string,   // 응답 코드
