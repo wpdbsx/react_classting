@@ -28,17 +28,17 @@ export const FlexMain = styled.div`
 `
 
 export const FlexMainItem = styled.div`
-        flex:8;
-    background-color: #dbdbef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  flex:8;
+  background-color: #dbdbef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 export const FlexAsideItem = styled.div`
-    flex:2;
-    background-color: gray;
-    overflow-y:auto;
+  flex:2;
+  background-color: gray;
+  overflow-y:auto;
 `
 
 export const ErrorMessage = styled.div`

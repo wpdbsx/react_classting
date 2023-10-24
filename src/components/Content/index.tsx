@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { ContentMainBox } from "../../styles/contentStyle";
+import { ContentMainBox } from "../../styles";
 import QuizViewer from "./QuizView";
 import QuizResultViewer from "./QuizResultView";
 import { RootState } from "../../reduxSaga/reducers";
