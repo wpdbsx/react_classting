@@ -1,9 +1,9 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { Input, Modal } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import { RootState } from "../../reduxSaga/reducers";
 import { ErrorMessage, ContentQustion, QuestionContent, ContentInput, QuestionLabel, ContentInputBox, ContentInputText, ContentInputCheckBox, ContentButtonBox, ContentButtonText, ContentButton } from "../../styles";
 import { CHANGE_INPUT_ANSWER, CHANGE_IS_RESULT_VIEW, COMPLETE_QUIZ } from "../../reduxSaga/actionType/quiz";
@@ -35,7 +35,7 @@ const QuizViewer: React.FC = () => {
         mode: "onSubmit",
         resolver: yupResolver(titleYup),
         defaultValues: {
-            title: '',
+            title: "",
         }
     });
 
@@ -75,7 +75,7 @@ const QuizViewer: React.FC = () => {
     const handleComplete = useCallback(() => {
         modal.confirm({
             icon: null,
-            title: '퀴즈 타이틀 등록',
+            title: "퀴즈 타이틀 등록",
             content:
                 <Controller
                     name={"title"}
@@ -86,7 +86,7 @@ const QuizViewer: React.FC = () => {
                             <>
                                 <Input
                                     {...field}
-                                    placeholder="20글자 이하로 입력해주세요."
+                                    placeholder={"20글자 이하로 입력해주세요."}
                                     maxLength={20}
 
                                 />
@@ -96,11 +96,11 @@ const QuizViewer: React.FC = () => {
                     }}
                 />
             ,
-            okText: '퀴즈등록',
-            cancelText: '취소',
+            okText: "퀴즈등록",
+            cancelText: "취소",
             onOk: (close) => {
                 handleSubmit(({ title }) => {
-                    setValue('title', '');
+                    setValue("title", "");
                     dispatch({
                         type: COMPLETE_QUIZ,
                         payload: {
@@ -114,7 +114,7 @@ const QuizViewer: React.FC = () => {
 
             },
             onCancel: () => {
-                setValue('title', '');
+                setValue("title", "");
             }
 
         });
@@ -139,14 +139,14 @@ const QuizViewer: React.FC = () => {
                         <QuestionContent>{content.quizs[page]?.question}</QuestionContent>
                     </ContentQustion>
                     <ContentInputBox>
-                        {content.quizs[page]?.answer_list?.map((question, index) => (
+                        {content.quizs[page]?.answer_list?.map((question) => (
                             <ContentInput
                                 key={question}
                                 $color={(content.quizs[page]?.isCorrect ||
                                     content.quizs[page].correct_answer === question) && content.quizs[page].input_answer ? "green"
                                     : content.quizs[page]?.input_answer && "red"}>
                                 <ContentInputCheckBox
-                                    disabled={content.quizs[page]?.input_answer !== ''}
+                                    disabled={content.quizs[page]?.input_answer !== ""}
                                     checked={question === content.quizs[page]?.input_answer}
                                     value={question}
                                     onChange={handleChange}

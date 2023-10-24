@@ -60,13 +60,12 @@ const Header: React.FC = () => {
         <HeaderForm onFinish={handleSubmit(onSubmitHandler)}>
             <HeaderItem>
                 <Controller
-                    name="amount"
+                    name={"amount"}
                     control={control}
                     render={({ field }) => {
-
                         return (
                             <>
-                                <HeaderDiv>문제 수</HeaderDiv>
+                                <HeaderDiv>{"문제 수"}</HeaderDiv>
                                 <InputNumber onChange={field.onChange} min={1} max={50} defaultValue={10} />
                             </>
                         )
@@ -75,15 +74,15 @@ const Header: React.FC = () => {
             </HeaderItem >
             <HeaderItem>
                 <Controller
-                    name="category"
+                    name={"category"}
                     control={control}
                     render={({ field }) => {
 
                         return (
                             <>
-                                <HeaderDiv>카테고리</HeaderDiv>
+                                <HeaderDiv>{"카테고리"}</HeaderDiv>
                                 <Select
-                                    defaultValue="Any Category"
+                                    defaultValue={"Any Category"}
                                     onChange={field.onChange}
                                     style={{ width: "100%" }}
                                     options={category}
@@ -94,14 +93,14 @@ const Header: React.FC = () => {
             </HeaderItem>
             <HeaderItem>
                 <Controller
-                    name="difficulty"
+                    name={"difficulty"}
                     control={control}
                     render={({ field }) => {
                         return (
                             <>
-                                <HeaderDiv>난이도</HeaderDiv>
+                                <HeaderDiv>{"난이도"}</HeaderDiv>
                                 <Select
-                                    defaultValue="Any difficulty"
+                                    defaultValue={"Any difficulty"}
                                     onChange={field.onChange}
                                     style={{ width: "100%" }}
                                     options={difficulty}
@@ -111,7 +110,7 @@ const Header: React.FC = () => {
                 />
             </HeaderItem>
             <HeaderQuizStart>
-                <Button loading={addQuizLoading} htmlType="submit" size="large">퀴즈 시작</Button>
+                <Button loading={addQuizLoading} htmlType={"submit"} size={"large"}>{"퀴즈 시작"}</Button>
                 {contextHolder}
             </HeaderQuizStart>
         </HeaderForm >
