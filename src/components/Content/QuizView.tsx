@@ -142,9 +142,12 @@ const QuizViewer: React.FC = () => {
                         {content.quizs[page]?.answer_list?.map((question) => (
                             <ContentInput
                                 key={question}
-                                $color={(content.quizs[page]?.isCorrect ||
-                                    content.quizs[page].correct_answer === question) && content.quizs[page].input_answer ? "green"
-                                    : content.quizs[page]?.input_answer && "red"}>
+                                $color={(
+                                    (content.quizs[page]?.isCorrect || content.quizs[page]?.correct_answer === question) &&
+                                    content.quizs[page]?.input_answer
+                                ) ? "green" : (
+                                    content.quizs[page]?.input_answer ? "red" : undefined
+                                )}>
                                 <ContentInputCheckBox
                                     disabled={content.quizs[page]?.input_answer !== ""}
                                     checked={question === content.quizs[page]?.input_answer}
