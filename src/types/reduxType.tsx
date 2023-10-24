@@ -6,8 +6,13 @@ export type RequestQuizType = {
     difficulty: string // 난이도
 }
 
-export type ChangeIncorrectNotePage = {
+export type changeIsResultViewType = {
+    isResultView: boolean // 결과 화면을 렌더링 여부
+}
+
+export type ChangeIncorrectNotePageType = {
     id: number, // 퀴즈 타이틀
+    isResultView: boolean // 결과 화면을 렌더링 여부
 }
 export type CompleteQuizType = {
     title: string, // 퀴즈 타이틀
@@ -39,7 +44,8 @@ export type SuccessQuizType = {
     time: number;   // 전체 퀴즈 푼 시간
     correctCount: number, // 정답수
     incorrectCount: number, //오답수
-    title: string
+    title: string,
+    isResultView: boolean,
 }
 export type SuccessPostType = {
     response_code: string,   // 응답 코드

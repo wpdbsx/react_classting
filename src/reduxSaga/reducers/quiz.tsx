@@ -3,7 +3,7 @@ import { produce } from "immer";
 import { getType } from 'typesafe-actions';
 import { InitialStateQuizType } from '../../types/reduxType';
 import { quizActionType } from "../action";
-import { changeIncorrectNotePage, changeInputAnswer, completeQuiz, getQuiz } from '../action/actions';
+import { changeIncorrectNotePage, changeInputAnswer, changeIsResultView, completeQuiz, getQuiz } from '../action/actions';
 
 
 
@@ -21,6 +21,7 @@ const initialState: InitialStateQuizType = {
       correctCount: 0,
       incorrectCount: 0,
       title: "",
+      isResultView: false,
     },
     id: -1
   },
@@ -77,7 +78,8 @@ const reducer = (state = initialState, action: quizActionType) => {
           time: new Date().getTime(),
           correctCount: 0,
           incorrectCount: 0,
-          title: ""
+          title: "",
+          isResultView: false,
         };
         draft.selectedQuiz.id = -1
       });
@@ -105,6 +107,7 @@ const reducer = (state = initialState, action: quizActionType) => {
         const id = draft.mainQuizs.length;
         draft.selectedQuiz.id = id;
         draft.selectedQuiz.content.time = Math.floor(new Date().getTime() - draft.selectedQuiz.content.time) / 1000;
+        draft.selectedQuiz.content.isResultView = true;
         draft.mainQuizs = [{
           id,
           content: {
@@ -113,18 +116,26 @@ const reducer = (state = initialState, action: quizActionType) => {
             //  퀴즈 완료시간에서 퀴즈 생성 시간을 빼서 만든다.
             correctCount: draft.selectedQuiz.content.correctCount,
             incorrectCount: draft.selectedQuiz.content.incorrectCount,
-            title: action.payload.title
+            title: action.payload.title,
+            isResultView: true,
           },
         }, ...draft.mainQuizs]
       });
     case getType(changeIncorrectNotePage):
       return produce(state, (draft) => {
-        const { id } = action.payload;
+        const { id, isResultView } = action.payload;
         const selectedQuiz = draft.mainQuizs.find((quiz) => quiz.id === id);
         if (selectedQuiz) {
           draft.selectedQuiz = selectedQuiz;
+          draft.selectedQuiz.content.isResultView = isResultView
         }
       });
+    case getType(changeIsResultView):
+      return produce(state, (draft) => {
+        draft.selectedQuiz.content.isResultView = action.payload.isResultView
+
+      });
+
 
     default:
       return state;

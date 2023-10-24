@@ -12,6 +12,7 @@ export const AsideBoxItem = styled.div<StyledType>`
    justify-content: space-around;
    align-items: center;
    flex-direction: column;
+   overflow-y: auto;
    
 `
 export const AsideBoxItemButton = styled.div`
@@ -19,6 +20,7 @@ export const AsideBoxItemButton = styled.div`
    height: 10%;
    width: 100%;
    margin-top: 5px;
+   margin-bottom: 10px;
    display: flex;
    justify-content: space-evenly;
    align-items: space-around;

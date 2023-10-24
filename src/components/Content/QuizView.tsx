@@ -6,8 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from "../../reduxSaga/reducers";
 import { ContentQustion, QuestionContent, ContentInput, QuestionLabel, ContentInputBox, ContentInputText, ContentInputCheckBox, ContentButtonBox, ContentButtonText, ContentButton } from "../../styles/contentStyle";
-import { CHANGE_INPUT_ANSWER, COMPLETE_QUIZ } from "../../reduxSaga/actionType/quiz";
-import { QuizViewerType } from "../../types/pageType";
+import { CHANGE_INPUT_ANSWER, CHANGE_IS_RESULT_VIEW, COMPLETE_QUIZ } from "../../reduxSaga/actionType/quiz";
 import { titleYup } from "./titleYup";
 import { ErrorMessage } from "../../styles/mainStyle";
 
@@ -19,7 +18,7 @@ type FormValue = {
 }
 
 
-const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
+const QuizViewer: React.FC = () => {
 
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(0);
@@ -47,14 +46,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
         incorrectCount.current = 0;
     }, [id]);
 
-    const shuffleArray = useCallback((array: string[]) => {
-        // 배열을 랜덤하게 섞기 위한 함수
-        return array?.sort(() => Math.random() - 0.5);
-    }, [])
 
-    const array = useMemo(() => shuffleArray(
-        content.quizs[page]?.incorrect_answers?.concat(content.quizs[page]?.correct_answer)
-    ), [page, content.quizs[page]?.correct_answer])
 
 
     const handleChange = useCallback((e: CheckboxChangeEvent) => {
@@ -82,7 +74,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
             setPage((prev) => prev - 1);
         }
     }, [])
-    const handleComplete = () => {
+    const handleComplete = useCallback(() => {
         modal.confirm({
             icon: null,
             title: '퀴즈 타이틀 등록',
@@ -117,7 +109,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                             title
                         }
                     });
-                    handleChangeView(true);
+
                     close();
 
                 })();
@@ -128,8 +120,16 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
             }
 
         });
-    }
+    }, [])
+    const handleResultView = useCallback(() => {
+        dispatch({
+            type: CHANGE_IS_RESULT_VIEW,
+            payload: {
+                isResultView: true
+            }
+        })
 
+    }, []);
 
 
     return (
@@ -166,7 +166,7 @@ const QuizViewer: React.FC<QuizViewerType> = ({ handleChangeView }) => {
                                     (id === -1 ? (
                                         <ContentButton onClick={handleComplete}>퀴즈완료</ContentButton>
                                     ) :
-                                        <ContentButton onClick={() => handleChangeView(true)}>결과보기</ContentButton>)
+                                        <ContentButton onClick={handleResultView}>결과보기</ContentButton>)
                                 ) : (
                                     <ContentButton onClick={handlePageChange("+")}>다음문제</ContentButton>
                                 )}
